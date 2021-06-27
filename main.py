@@ -14,8 +14,7 @@ import database
 r = praw.Reddit('racing_bot')
         
         
-subreddit = r.subreddit("iracing+karting+simracing+F1Game+formula1+granturismo")
-subreddit = r.subreddit("VelocityIntegrated")
+subreddit = r.subreddit("iracing+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
 
 
 posts = subreddit.stream.submissions(pause_after=-1, skip_existing=False)
@@ -43,7 +42,10 @@ def response_function(thing, kind,  reddit_type):
     
     if not has_responded:
         print('commenting')
+        
         retort = database.sample_retort(kind)
+        print(retort)
+
         retort  = retort + base_text.replace(' ',  ' ^^')
     
         thing.reply(retort)
