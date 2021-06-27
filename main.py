@@ -10,6 +10,8 @@ Created on Thu Jun 24 16:22:56 2021
 import praw
 import reddit_layer
 import database
+from datetime import datetime
+
 
 r = praw.Reddit('racing_bot')
         
@@ -41,10 +43,8 @@ def response_function(thing, kind,  reddit_type):
     has_responded = database.check_if_responded(thing.id, reddit_type)
     
     if not has_responded:
-        print('commenting')
-        
+        print(f'{datetime.today()} - commenting') 
         retort = database.sample_retort(kind)
-        print(retort)
 
         retort  = retort + base_text.replace(' ',  ' ^^')
     
