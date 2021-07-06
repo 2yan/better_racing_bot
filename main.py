@@ -13,14 +13,15 @@ import database
 from datetime import datetime
 import sys
 
-r = praw.Reddit('racing_bot')
-        
-        
-subreddit = r.subreddit("iracing+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
 
 
+def load_reddit():
+    r = praw.Reddit('racing_bot')
+    subreddit = r.subreddit("iracing+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
 
-
+    cmts = subreddit.stream.comments(pause_after=-1, skip_existing=False)
+    posts = subreddit.stream.submissions(pause_after=-1, skip_existing=False)
+    return cmts, posts
 
 base_text = """
 _____
@@ -49,6 +50,11 @@ def response_function(thing, kind,  reddit_type):
 
     
 print('setting up')
+
+cmts, posts = load_reddit()
+
+
+
 
 while True:
     try:
