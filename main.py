@@ -11,22 +11,16 @@ import praw
 import reddit_layer
 import database
 from datetime import datetime
-
+import sys
 
 r = praw.Reddit('racing_bot')
         
         
-subreddit = r.subreddit("iracing+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
-
-
-posts = subreddit.stream.submissions(pause_after=-1, skip_existing=False)
-cmts = subreddit.stream.comments(pause_after=-1, skip_existing=False)
+subreddit = r.subreddit("iracing+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
 
 
 
 
-p = reddit_layer.check_posts(posts)
-c = reddit_layer.check_comments(cmts)
 
 base_text = """
 _____
@@ -43,7 +37,7 @@ def response_function(thing, kind,  reddit_type):
     has_responded = database.check_if_responded(thing.id, reddit_type)
     
     if not has_responded:
-        print(f'{datetime.today()} - commenting') 
+        print('commenting ', datetime.today()) 
         retort = database.sample_retort(kind)
 
         retort  = retort + base_text.replace(' ',  ' ^^')
@@ -54,16 +48,27 @@ def response_function(thing, kind,  reddit_type):
 
 
     
+print('setting up')
 
-    
 while True:
-    p = reddit_layer.check_posts(posts)
-    c = reddit_layer.check_comments(cmts)
+    try:
+        p = reddit_layer.check_posts(posts)
+        for post, kind in p:
+            response_function(post, kind, 'submission')
+
+    except Exception as e:
+        pass
+    try:
+        c = reddit_layer.check_comments(cmts)
+        for comment, kind in c:
+            response_function(comment, kind, 'comment')
+         
+    
+    
+    except Exception as e:
+        pass
+    
+    
+    print( datetime.today() , end = '\r')
     
 
-    for post, kind in p:
-        response_function(post, kind, 'submission')
-
-    for comment, kind in c:
-        response_function(comment, kind, 'comment')
-        
