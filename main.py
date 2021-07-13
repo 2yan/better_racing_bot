@@ -12,15 +12,27 @@ import reddit_layer
 import database
 from datetime import datetime
 import sys
-
+import time
 
 
 def load_reddit():
-    r = praw.Reddit('racing_bot')
-    subreddit = r.subreddit("iracing+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
+    sleep_time = 1
+    done  = False
+    while not done:
+        try:
+            r = praw.Reddit('racing_bot')
+            subreddit = r.subreddit("velocityintegrated+iracing+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
 
-    cmts = subreddit.stream.comments(pause_after=-1, skip_existing=False)
-    posts = subreddit.stream.submissions(pause_after=-1, skip_existing=False)
+
+            cmts = subreddit.stream.comments(pause_after=-1, skip_existing=False)
+            posts = subreddit.stream.submissions(pause_after=-1, skip_existing=False)
+            done = True
+        except Exception as e:
+            time.sleep(sleep_time)
+            sleep_time = sleep_time * 2
+            sleep_time = min(sleep_time, 60)
+            pass
+    
     return cmts, posts
 
 base_text = """
@@ -63,15 +75,17 @@ while True:
             response_function(post, kind, 'submission')
 
     except Exception as e:
+        cmts, posts = load_reddit()
+        print(e)
         pass
     try:
         c = reddit_layer.check_comments(cmts)
         for comment, kind in c:
             response_function(comment, kind, 'comment')
-         
-    
     
     except Exception as e:
+        print(e)
+        cmts, posts = load_reddit()
         pass
     
     
