@@ -50,7 +50,11 @@ def get_retorts():
 
 
 def sample_retort(tag):
-    assert tag in ['gap', 'rubbing']
     x = get_retorts()
-    x = x[tag]
+    try:
+        x = x[tag]
+    except KeyError:
+        t = tag.split('+')[0]
+        x = x[t]
+
     return sample(x, 1)[0]

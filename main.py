@@ -45,7 +45,6 @@ _____
 
 def response_function(thing, kind,  reddit_type):
     assert reddit_type in ['submission', 'comment']
-    assert kind in ['gap', 'rubbing']
     
     has_responded = database.check_if_responded(thing.id, reddit_type)
     
@@ -58,37 +57,51 @@ def response_function(thing, kind,  reddit_type):
         thing.reply(retort)
         database.record_response(thing.id, reddit_type)
     
+def main_func():    
+    print('setting up')
+
+    cmts, posts = load_reddit()
 
 
-    
-print('setting up')
-
-cmts, posts = load_reddit()
-
-
-
-
-while True:
-    try:
+    while True:
         p = reddit_layer.check_posts(posts)
         for post, kind in p:
             response_function(post, kind, 'submission')
 
-    except Exception as e:
-        cmts, posts = load_reddit()
-        print(e)
-        pass
-    try:
         c = reddit_layer.check_comments(cmts)
         for comment, kind in c:
             response_function(comment, kind, 'comment')
-    
-    except Exception as e:
-        print(e)
-        cmts, posts = load_reddit()
-        pass
-    
-    
-    print( datetime.today() , end = '\r')
-    
+        
+        print( datetime.today() , end = '\r')
 
+
+def main_func_with_exceptions():    
+    print('setting up')
+
+    cmts, posts = load_reddit()
+
+
+    while True:
+        try:
+            p = reddit_layer.check_posts(posts)
+            for post, kind in p:
+                response_function(post, kind, 'submission')
+
+        except Exception as e:
+            cmts, posts = load_reddit()
+            print(e)
+            pass
+        try:
+            c = reddit_layer.check_comments(cmts)
+            for comment, kind in c:
+                response_function(comment, kind, 'comment')
+        
+        except Exception as e:
+            print(e)
+            cmts, posts = load_reddit()
+            pass
+        
+        
+        print( datetime.today() , end = '\r')
+#main_func()        
+main_func_with_exceptions()
