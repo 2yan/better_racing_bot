@@ -3,9 +3,7 @@
 
 
 
-checks = {'gap': ['if you no longer go for a gap', 'if you no longer go for the gap'],
-          'rubbing': ['rubbin is racin', 'rubbing is racin'], 
-          'nascar': ['nascar']
+checks = {'gap': ['if you no longer go for a gap', 'if you no longer go for the gap']
           }
 
 
@@ -19,8 +17,6 @@ def get_tags(text):
         for check_phrase in checks[key]:
             if check_phrase in text.lower():
                 tags.append(key)
-    if tags == ['nascar']:
-        return []
     return tags 
 
 

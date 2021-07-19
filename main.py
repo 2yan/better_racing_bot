@@ -21,7 +21,7 @@ def load_reddit():
     while not done:
         try:
             r = praw.Reddit('racing_bot')
-            subreddit = r.subreddit("velocityintegrated+iracing+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
+            subreddit = r.subreddit("velocityintegrated+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
 
 
             cmts = subreddit.stream.comments(pause_after=-1, skip_existing=False)
@@ -103,5 +103,6 @@ def main_func_with_exceptions():
         
         
         print( datetime.today() , end = '\r')
-#main_func()        
+#main_func()      
+database.create_table()
 main_func_with_exceptions()
