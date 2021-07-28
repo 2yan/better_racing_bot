@@ -12,6 +12,12 @@ checks = {'gap': ['if you no longer go for a gap', 'if you no longer go for the 
 
 
 def get_tags(text):
+    text = text.lower()
+    if '\\s' in text:
+        return []
+    if '/s' in text:
+        return []
+
     tags = []
     for key in checks.keys():
         for check_phrase in checks[key]:

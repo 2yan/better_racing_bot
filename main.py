@@ -21,7 +21,7 @@ def load_reddit():
     while not done:
         try:
             r = praw.Reddit('racing_bot')
-            subreddit = r.subreddit("velocityintegrated+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
+            subreddit = r.subreddit("better_racing_bot+velocityintegrated+motorsports+indycar+formulae+wec+wtcc+racing+startmotorsport+karting+simracing+F1Game+formula1+granturismo+assettocorsa+forzahorizon")
 
 
             cmts = subreddit.stream.comments(pause_after=-1, skip_existing=False)
@@ -38,7 +38,12 @@ def load_reddit():
 base_text = """
 _____
  I'm a bot and I just detected a quote that is close to universally hated in the racing community. This response has been communally sourced from your fellow racing drivers.
- If you have other responses you want to add to my repository, PM your ideas and the mindless racing nerd, that codes me, will add it.
+ To suggest responses or changes visit r/better_racing_bot
+
+ Keep doing this nonsense:
+
+ ETH:0xA348Bf30051751113134129CF5B7AF465C11B02c
+ BTC:3Hjhvq7EratL6eTvWDDgKSAsaCBkqe1rbS
 """
 
 
